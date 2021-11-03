@@ -40,24 +40,40 @@ const getVenues = async () => {
   }
 }
 
-const getForecast = () => {
-
+const getForecast = async () => {
+  const urlToFetch = `${forecastUrl}${apiKey}&q=${input.val()}&days=48hour=11`;
+  try {
+    const response = await fetch(urlToFetch);
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+      const days = jsonResponse.forecast.forecastDay;
+      return days;
+    }
+    else {
+      throw new Error('Request failed!');
+    }
+  } 
+  catch(error) {
+    console.log(error.message);
+  }
 }
 
 
 // Render functions
 const renderVenues = (venues) => {
   $venueDivs.forEach(($venue, index) => {
-    // Add your code here:
-
-    let venueContent = '';
+    const venue = venues[index];
+    const venueIcon = venue.categories[0];
+    const venueImgSrc = `${venueIcon.prefix}bg_64${venue.Icon.suffix}`;
+    let venueContent = createVenueHTML(venue.name, venue.location, venueImgSrc);
     $venue.append(venueContent);
   });
   $destination.append(`<h2>${venues[0].location.city}</h2>`);
 }
 
 const renderForecast = (day) => {
-  // Add your code here:
+  
   
 	let weatherContent = '';
   $weatherDiv.append(weatherContent);
