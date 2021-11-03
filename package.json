@@ -1,0 +1,29 @@
+{
+  "name": "wanderlust",
+  "version": "1.0.0",
+  "description": "Wanderlust Project",
+  "main": "index.js",
+  "scripts": {
+    "lite": "lite-server",
+		"start": "npm run lite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hughesmarissa/Wanderlust.git"
+  },
+  "author": "Marissa Hughes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hughesmarissa/Wanderlust/issues"
+  },
+  "homepage": "https://github.com/hughesmarissa/Wanderlust#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
+}
