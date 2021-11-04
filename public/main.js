@@ -19,8 +19,8 @@ const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frida
 // Add AJAX functions here:
 const getVenues = async () => {
   const city = $input.val();
-  const urlToFetch = `${url}${city}&limit=10&client_id=${clientId}&client_secret=${clientSecret}&v=20180101`;
-
+  const urlToFetch = 
+    `${url}${city}&limit=10&client_id=${clientId}&client_secret=${clientSecret}&v=20180101`;
   try {
     const response = await fetch(urlToFetch);
     if(response.ok) {
@@ -41,13 +41,14 @@ const getVenues = async () => {
 }
 
 const getForecast = async () => {
-  const urlToFetch = `${forecastUrl}${apiKey}&q=${input.val()}&days=48hour=11`;
+  const urlToFetch = 
+  `${weatherUrl}${apiKey}&q=${$input.val()}&days=48hour=11`;
   try {
     const response = await fetch(urlToFetch);
     if (response.ok) {
       const jsonResponse = await response.json();
       console.log(jsonResponse);
-      const days = jsonResponse.forecast.forecastDay;
+      const days = jsonResponse.forecast.forecastday;
       return days;
     }
     else {
@@ -64,19 +65,22 @@ const getForecast = async () => {
 const renderVenues = (venues) => {
   $venueDivs.forEach(($venue, index) => {
     const venue = venues[index];
-    const venueIcon = venue.categories[0];
-    const venueImgSrc = `${venueIcon.prefix}bg_64${venue.Icon.suffix}`;
-    let venueContent = createVenueHTML(venue.name, venue.location, venueImgSrc);
+    const venueIcon = venue.categories[0].icon;
+    const venueImgSrc = 
+      `${venueIcon.prefix}bg_64${venueIcon.suffix}`;
+    let venueContent = 
+      createVenueHTML(venue.name, venue.location, venueImgSrc);
     $venue.append(venueContent);
   });
   $destination.append(`<h2>${venues[0].location.city}</h2>`);
 }
 
-const renderForecast = (day) => {
-  
-  
-	let weatherContent = '';
-  $weatherDiv.append(weatherContent);
+const renderForecast = (days) => {
+  $weatherDivs.forEach(($day, index) => {
+  const currentDay = days[index];
+  let weatherContent = createWeatherHTML(currentDay);
+  $day.append(weatherContent);
+  });
 }
 
 const executeSearch = () => {
@@ -84,8 +88,10 @@ const executeSearch = () => {
   $weatherDiv.empty();
   $destination.empty();
   $container.css("visibility", "visible");
-  getVenues()
-  getForecast()
+  getVenues().then(venues => 
+    renderVenues(venues));
+  getForecast().then(forecast => 
+    renderForecast(forecast));
   return false;
 }
 
